@@ -52,8 +52,35 @@ For end-to-end (e2e) testing, run:
 ng e2e
 ```
 
+### Installing Cypress
+
+To install [Cypress](https://docs.cypress.io/app/end-to-end-testing/writing-your-first-end-to-end-test), run this command :
+
+```bash
+ng add @cypress/schematic
+```
+
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## Deployement
+
+To deploy to github pages from the command line install [angular-cli-pages](https://www.npmjs.com/package/angular-cli-ghpages).
+
+```bash
+ng add angular-cli-ghpages
+```
+
+Then, you can use the next command. It will : 
+- build the project
+- nuke the source file and keep only the output
+- create the error 404 page
+- create the branch gh-pages, add, commit and push to the repository
+
+```bash
+ng deploy --base-href=/mks-coaching/
+```

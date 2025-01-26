@@ -2,11 +2,15 @@
   "name": "mks-coaching",
   "version": "0.0.0",
   "scripts": {
+    "e2e": "ng e2e",
+    "e2e:test": "./node_modules/.bin/nightwatch --env 'firefox' --config './nightwatch.conf.js'",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -26,13 +30,19 @@
     "@angular-devkit/build-angular": "^19.1.4",
     "@angular/cli": "^19.1.4",
     "@angular/compiler-cli": "^19.1.0",
+    "@cypress/schematic": "^3.0.0",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "22.10.10",
+    "angular-cli-ghpages": "^2.0.3",
+    "geckodriver": "5.0.0",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.7.2"
+    "ts-node": "10.9.2",
+    "typescript": "~5.7.2",
+    "cypress": "latest"
   }
 }

@@ -89,8 +89,76 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
+        },
+        "nightwatch-run": {
+          "builder": "@nightwatch/schematics:nightwatch",
+          "options": {
+            "devServerTarget": "mks-coaching:serve",
+            "tsConfig": "../nightwatch/tsconfig.e2e.json",
+            "config": "./nightwatch.conf.js",
+            "env": "firefox"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "mks-coaching:serve:production"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "mks-coaching:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "mks-coaching:serve:production"
+            }
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "mks-coaching:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "mks-coaching:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "mks-coaching:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "mks-coaching:serve:development"
+            }
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }
