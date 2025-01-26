@@ -1,3 +1,31 @@
 <h1>Connexion</h1>
 
-<button (click)="onSubmit()"> </button>
+<button (click)="onSubmit()">Test</button>
+
+<form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
+  <label>
+    Name
+    <input type="text" formControlName="name" required />
+  </label>
+  <label>
+    Email
+    <input type="email" formControlName="email" />
+  </label>
+  <button type="submit">Submit</button>
+</form>
+
+...
+<h2>Profile Form</h2>
+<p>Name: {{name?.value}}</p>
+<p>Email: {{email?.value}}</p>
+
+{{name?.value}}
+
+<div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
+  <div *ngIf="name?.hasError('required')">
+    Name is required.
+  </div>
+  <div *ngIf="name?.hasError('minlength')">
+    Name must be at least 4 characters long.
+  </div>
+</div>
