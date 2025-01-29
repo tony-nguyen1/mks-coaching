@@ -93,3 +93,18 @@ ng deploy --base-href=/mks-coaching/
 npm install -D tailwindcss postcss autoprefixer
 npx tailwind init
 ```
+
+## Firebase 
+
+[Link for firebase](https://firebase.google.com/docs/web/setup?authuser=0&hl=fr)
+
+```bash
+npm install firebase
+```
+
+## Firestore
+
+```
+npm install firebase@11.2.0 --save
+```
+

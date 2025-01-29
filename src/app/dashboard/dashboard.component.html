@@ -1,0 +1,73 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <!-- En-tête -->
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800">Tableau de bord</h1>
+    <button (click)="getData()">Test</button>
+  </header>
+
+  <!-- Cartes
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div *ngFor="let card of cards" class="p-6 rounded-lg shadow-md text-white" [ngClass]="card.bgColor">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-lg font-semibold">{{ card.title }}</p>
+          <p class="text-2xl">{{ card.value }}</p>
+        </div>
+        <span class="text-3xl">{{ card.icon }}</span>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Liens rapides -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Accès rapide</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- <a *ngFor="let link of quickLinks" [routerLink]="link.path"
+        class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <div class="flex items-center">
+          <span class="text-2xl mr-4">{{ link.icon }}</span>
+          <p class="text-lg font-medium text-gray-800">{{ link.label }}</p>
+        </div>
+      </a> -->
+    </div>
+  </div>
+
+  <!-- Tableau des commandes récentes -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Commandes récentes</h2>
+    <table class="w-full text-left">
+      <thead>
+        <tr class="border-b">
+          <th class="py-2">Ientifiant</th>
+          <th class="py-2">Client</th>
+          <th class="py-2">Âge</th>
+          <th class="py-2">Adresse e-mail</th>
+          <th class="py-2">Poids</th>
+          <th class="py-2">Date d'inscription</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let da of data">
+          <td>
+            {{da.id}}
+          </td>
+          <td>
+            {{da.get('nom')}} {{da.get('prenom')}}
+          </td>
+          <td>
+            {{da.get('age')}}
+          </td>
+          <td>
+            {{da.get('email')}}
+          </td>
+          <td>
+            {{this.findLastWeight(da.data())?.unPoid}}
+          </td>
+          <td>
+            {{dateToStringFormat((da.data()['createdAt']).toDate())}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
