@@ -1,31 +1,74 @@
-<h1>Connexion</h1>
+<div class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+    <h2 class="text-2xl font-bold mb-6 text-center">Connexion</h2>
+    <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Votre email" formControlName="email" required />
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+        <input type="password" id="password" name="password"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Votre mot de passe" required formControlName="password" />
+      </div>
+      <!-- [disabled]="profileForm.invalid" -->
+      <button type="submit" (click)="onSubmit()"
+        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        Se connecter
+      </button>
+    </form>
+    <p class="mt-4 text-center text-sm text-gray-600">
+      Pas encore de compte ? <a href="#" class="text-indigo-600 hover:text-indigo-500">Inscrivez-vous</a>
+    </p>
+    <p class="mt-4 text-center text-sm text-gray-600">
+      Mot de passe oublié ? <a href="#" class="text-indigo-600 hover:text-indigo-500">Réinitialisation</a>
+    </p>
+    <!-- <button (click)="onSubmit()">Test</button> -->
+    <!-- <p>Bonjour {{email?.value}}</p> -->
+    <!-- <p>Password invalide ? {{password?.invalid}} </p>
+    <p>Password invalide ? {{password?.valid}} </p>
+    <p>Password dirty ? {{password?.dirty}}</p>
+    <p>Password touched ? {{password?.touched}} </p> -->
 
-<button (click)="onSubmit()">Test</button>
-
-<form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
-  <label>
-    Name
-    <input type="text" formControlName="name" required />
-  </label>
-  <label>
-    Email
-    <input type="email" formControlName="email" />
-  </label>
-  <button type="submit">Submit</button>
-</form>
-
-...
-<h2>Profile Form</h2>
-<p>Name: {{name?.value}}</p>
-<p>Email: {{email?.value}}</p>
-
-{{name?.value}}
-
-<div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
-  <div *ngIf="name?.hasError('required')">
-    Name is required.
-  </div>
-  <div *ngIf="name?.hasError('minlength')">
-    Name must be at least 4 characters long.
+    <div>
+      @if (password?.dirty && email?.dirty) {
+      @if (email?.invalid) {
+      <p>Email invalide</p>
+      }
+      @if (password?.invalid) {
+      <p>Mot de passe invalide</p>
+      }
+      <ul>
+        @if (!password?.value?.match('(?=.*[A-Z])')) {
+        <li>Mot de passe doit contenir au moins une lettre majuscule.</li>
+        }
+        @if (!password?.value?.match('(?=.*[a-z])')) {
+        <li>Mot de passe doit contenir au moins une lettre minuscule.</li>
+        }
+        @if (!password?.value?.match('(?=.*[0-9])')) {
+        <li>Au moins un chiffre.</li>
+        }
+        @if (!password?.value?.match('(?=.*[!@#$%^&*])')) {
+        <li>Au moins un charactère spécial.</li>
+        }
+        @if (!password?.value?.match('.{8,}')) {
+        <li>Au moins 8 charactères.</li>
+        }
+      </ul>
+      }
+    </div>
   </div>
 </div>
+
+
+<!-- <div *ngIf="password?.invalid && password?.dirty" class="alert alert-danger">
+  <div *ngIf="password?.hasError('required')">
+    Name is required.
+  </div>
+  <div *ngIf="password?.hasError('minlength')">
+    Password must be at least 4 characters long.
+  </div>
+</div> -->

@@ -84,3 +84,12 @@ Then, you can use the next command. It will :
 ```bash
 ng deploy --base-href=/mks-coaching/
 ```
+
+## Tailwind
+
+[Source](https://angular.fr/technical/tailwind)
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwind init
+```
