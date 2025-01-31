@@ -1,94 +1,96 @@
-<div class="container mx-auto p-4 max-w-md bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Inscription</h2>
+<div class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="container mx-auto p-4 max-w-md bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Inscription</h2>
 
-  <!-- Étape 1 : Email et mot de passe -->
-  <div *ngIf="etape === 1">
-    <form [formGroup]="inscriptionForm">
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input id="email" formControlName="email" type="email" placeholder="Votre email"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('email')?.invalid && inscriptionForm.get('email')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Veuillez entrer un email valide.
+    <!-- Étape 1 : Email et mot de passe -->
+    <div *ngIf="etape === 1">
+      <form [formGroup]="inscriptionForm">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email" formControlName="email" type="email" placeholder="Votre email"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('email')?.invalid && inscriptionForm.get('email')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Veuillez entrer un email valide.
+          </div>
         </div>
-      </div>
 
-      <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-        <input id="password" formControlName="password" type="password" placeholder="Votre mot de passe"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('password')?.invalid && inscriptionForm.get('password')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Le mot de passe doit contenir au moins 6 caractères.
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+          <input id="password" formControlName="password" type="password" placeholder="Votre mot de passe"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('password')?.invalid && inscriptionForm.get('password')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
         </div>
-      </div>
 
-      <button type="button" (click)="suivant()"
-        [disabled]="inscriptionForm.get('email')?.invalid || inscriptionForm.get('password')?.invalid"
-        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
-        Suivant
-      </button>
-    </form>
-  </div>
+        <button type="button" (click)="suivant()"
+          [disabled]="inscriptionForm.get('email')?.invalid || inscriptionForm.get('password')?.invalid"
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Suivant
+        </button>
+      </form>
+    </div>
 
-  <!-- Étape 2 : Informations supplémentaires -->
-  <div *ngIf="etape === 2">
-    <form [formGroup]="inscriptionForm">
-      <div class="mb-4">
-        <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
-        <input id="nom" formControlName="nom" type="text" placeholder="Votre nom"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('nom')?.invalid && inscriptionForm.get('nom')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Veuillez entrer votre nom.
+    <!-- Étape 2 : Informations supplémentaires -->
+    <div *ngIf="etape === 2">
+      <form [formGroup]="inscriptionForm">
+        <div class="mb-4">
+          <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+          <input id="nom" formControlName="nom" type="text" placeholder="Votre nom"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('nom')?.invalid && inscriptionForm.get('nom')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Veuillez entrer votre nom.
+          </div>
         </div>
-      </div>
 
-      <div class="mb-4">
-        <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
-        <input id="prenom" formControlName="prenom" type="text" placeholder="Votre prénom"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('prenom')?.invalid && inscriptionForm.get('prenom')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Veuillez entrer votre prénom.
+        <div class="mb-4">
+          <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
+          <input id="prenom" formControlName="prenom" type="text" placeholder="Votre prénom"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('prenom')?.invalid && inscriptionForm.get('prenom')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Veuillez entrer votre prénom.
+          </div>
         </div>
-      </div>
 
-      <div class="mb-4">
-        <label for="age" class="block text-sm font-medium text-gray-700">Âge</label>
-        <input id="age" formControlName="age" type="number" placeholder="Votre âge"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('age')?.invalid && inscriptionForm.get('age')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Vous devez avoir au moins 18 ans.
+        <div class="mb-4">
+          <label for="age" class="block text-sm font-medium text-gray-700">Âge</label>
+          <input id="age" formControlName="age" type="number" placeholder="Votre âge"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('age')?.invalid && inscriptionForm.get('age')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Vous devez avoir au moins 18 ans.
+          </div>
         </div>
-      </div>
 
-      <div class="mb-4">
-        <label for="poids" class="block text-sm font-medium text-gray-700">Poids (kg)</label>
-        <input id="poids" formControlName="poids" type="number" placeholder="Votre poids"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('poids')?.invalid && inscriptionForm.get('poids')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Veuillez entrer un poids valide (minimum 30 kg).
+        <div class="mb-4">
+          <label for="poids" class="block text-sm font-medium text-gray-700">Poids (kg)</label>
+          <input id="poids" formControlName="poids" type="number" placeholder="Votre poids"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('poids')?.invalid && inscriptionForm.get('poids')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Veuillez entrer un poids valide (minimum 30 kg).
+          </div>
         </div>
-      </div>
 
-      <div class="mb-6">
-        <label for="pseudo" class="block text-sm font-medium text-gray-700">Pseudo</label>
-        <input id="pseudo" formControlName="pseudo" type="text" placeholder="Votre pseudo"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-        <div *ngIf="inscriptionForm.get('pseudo')?.invalid && inscriptionForm.get('pseudo')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Veuillez entrer un pseudo.
+        <div class="mb-6">
+          <label for="pseudo" class="block text-sm font-medium text-gray-700">Pseudo</label>
+          <input id="pseudo" formControlName="pseudo" type="text" placeholder="Votre pseudo"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          <div *ngIf="inscriptionForm.get('pseudo')?.invalid && inscriptionForm.get('pseudo')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Veuillez entrer un pseudo.
+          </div>
         </div>
-      </div>
 
-      <button type="button" (click)="soumettre()" [disabled]="inscriptionForm.invalid"
-        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
-        S'inscrire
-      </button>
-    </form>
+        <button type="button" (click)="soumettre()" [disabled]="inscriptionForm.invalid"
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
+          S'inscrire
+        </button>
+      </form>
+    </div>
   </div>
 </div>

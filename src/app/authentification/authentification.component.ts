@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
+import { RouterModule } from '@angular/router';
+
 import { FIREBASE_CONFIG } from '../environment';
 
 export const StrongPasswordRegx: RegExp =
@@ -24,6 +26,7 @@ const app = initializeApp(FIREBASE_CONFIG);
   imports: [
     ReactiveFormsModule, // Import du module nécessaire pour les formulaires réactifs
     CommonModule,
+    RouterModule
   ],
   templateUrl: './authentification.component.html',
   styleUrl: './authentification.component.css'
