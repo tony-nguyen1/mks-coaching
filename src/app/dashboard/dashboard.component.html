@@ -2,7 +2,6 @@
   <!-- En-tête -->
   <header class="mb-8">
     <h1 class="text-3xl font-bold text-gray-800">Tableau de bord</h1>
-    <button (click)="getData()">Test</button>
   </header>
 
   <!-- Cartes
@@ -36,14 +35,15 @@
   <div class="bg-white rounded-lg shadow-md p-6">
     <h2 class="text-xl font-bold text-gray-800 mb-4">Mes élèves</h2>
     <table class="w-full text-lef overflow-auto block">
-      <thead>
-        <tr class="border-b">
+      <thead class="w-full">
+        <tr class="border-b w-full">
           <th class="py-2">Identifiant</th>
           <th class="py-2">Client</th>
           <th class="py-2">Âge</th>
           <th class="py-2">Adresse e-mail</th>
           <th class="py-2">Poids</th>
           <th class="py-2">Date d'inscription</th>
+          <th class="py-2">Boutton</th>
         </tr>
       </thead>
       <tbody>
@@ -66,6 +66,10 @@
           <td>
             {{dateToStringFormat((da.data()['createdAt']).toDate())}}
           </td>
+          <button [routerLink]="['/detail/',da.id]"
+            class="bg-blue-600 text-white py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+            Détails
+          </button>
         </tr>
       </tbody>
     </table>

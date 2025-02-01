@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { UserDetailComponent } from '../user-detail/user-detail.component';
 
 // Firestore
 import { FirebaseApp, initializeApp } from "firebase/app";
@@ -27,8 +30,12 @@ const db: Firestore = getFirestore(app);
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    // UserDetailComponent,
+    RouterModule,
+
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

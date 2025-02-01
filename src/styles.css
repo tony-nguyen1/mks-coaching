@@ -2,3 +2,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Callheart';
+  src: url('./app/assets/font/Callheart-Rp7Vv.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'Callheart';
+}
+
+nav .logo {
+  font-family: 'Callheart';
+}

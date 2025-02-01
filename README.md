@@ -108,3 +108,26 @@ npm install firebase
 npm install firebase@11.2.0 --save
 ```
 
+# TODO
+
+## Techs
+
+- Partial hydration
+- Animatations
+- Static Site Generation
+- Mobile First Design
+- TransformStream pour l'inscription ???
+- Me trouver un nouveau shell ? IDE ? éditeur de texte ?
+
+## CSS/UX/UI
+
+- .btn:focus-not-visible et .btn:focs:not(:focus-visible) pour focus avec tab et souris resp.
+- utiliser initial-letter pour faire un style magazine
+- new viewports units : lvh et svh
+- inert
+- animation-timeline ?
+- dialog html et css ::backdrop
+- popover pour faire apparaitre et disparaitre un agenda par exemple ???
+- container ???
+
+## Features

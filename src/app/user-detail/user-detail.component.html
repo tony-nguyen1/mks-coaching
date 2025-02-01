@@ -1,0 +1,47 @@
+<div class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+    <!-- Titre de la page -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Détails de l'utilisateur</h1>
+
+    <!-- Informations générales -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Informations personnelles</h2>
+      <div class="space-y-4">
+        <p><span class="font-medium text-gray-600">Nom :</span> {{ user().nom }}</p>
+        <p><span class="font-medium text-gray-600">Prénom :</span> {{ user().prenom }}</p>
+        <p><span class="font-medium text-gray-600">Email :</span> {{ user().email }}</p>
+        <p><span class="font-medium text-gray-600">Âge :</span> {{ user().age }}</p>
+        <!-- <p><span class="font-medium text-gray-600">Pseudo :</span> {{ user().pseudo }}</p> -->
+      </div>
+    </div>
+
+    <!-- Mesures de poids -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Historique des mesures de poids</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Poids (kg)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr *ngFor="let mesure of user().poids" class="hover:bg-gray-50 transition duration-200">
+              <td class="px-6 py-4 text-sm text-gray-700">{{ mesure.createdAt }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700">{{ mesure.poid }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bouton de retour -->
+    <!-- <div class="mt-8">
+      <a routerLink="/users"
+        class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+        Retour à la liste
+      </a>
+    </div> -->
+  </div>
+</div>
