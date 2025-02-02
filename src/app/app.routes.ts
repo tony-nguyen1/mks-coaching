@@ -8,11 +8,23 @@ import { ContactComponent } from './contact/contact.component';
 import { ServiceComponent } from './service/service.component';
 
 export const routes: Routes = [
-    { path: 'auth', title: 'Authentification', component: AuthentificationComponent },
-    { path: 'dashboard', title: 'Tableau de bord', component: DashboardComponent },
-    { path: 'signup', title: 'Inscription', component: SignUpComponent },
     { path: '', title: 'Accueil', component: HomeComponent },
-    { path: 'dashboard/user/:id', title: "Detail d'un utilisateur", component: UserDetailComponent },
     { path: 'contact', title: 'Contact : Horaires', component: ContactComponent },
     { path: 'service', title: 'Services proposés', component: ServiceComponent },
+    {
+        path: 'signup', title: 'Inscription',
+        loadComponent: () => import('./sign-up/sign-up.component').then(m => m.SignUpComponent)
+    },
+    {
+        path: 'auth', title: 'Authentification',
+        loadComponent: () => import('./authentification/authentification.component').then(m => m.AuthentificationComponent)
+    },
+    {
+        path: 'dashboard/user/:id', title: "Detail d'un utilisateur",
+        loadComponent: () => import('./user-detail/user-detail.component').then(m => m.UserDetailComponent)
+    },
+    {
+        path: 'dashboard', title: 'Tableau de bord',
+        loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+    },
 ];

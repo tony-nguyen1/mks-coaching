@@ -35,7 +35,7 @@
     "@cypress/schematic": "^3.0.0",
     "@types/chai": "^5.0.1",
     "@types/jasmine": "~5.1.0",
-    "@types/node": "22.10.10",
+    "@types/node": "^22.10.10",
     "angular-cli-ghpages": "^2.0.3",
     "autoprefixer": "^10.4.20",
     "cypress": "^14.0.0",
