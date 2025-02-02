@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+/* @import "tailwindcss"; */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @font-face {
   font-family: 'Callheart';
@@ -10,9 +12,9 @@
   font-style: normal;
 }
 
-h1 {
+/* h1 {
   font-family: 'Callheart';
-}
+} */
 
 nav .logo {
   font-family: 'Callheart';

@@ -1,5 +1,13 @@
 # MksCoaching
 
+![GitHub contributors](https://img.shields.io/github/contributors/tony-nguyen1/mks-coaching)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/tony-nguyen1/mks-coaching)
+![Static Badge](https://img.shields.io/badge/Angular-v19-red?style=for-the-badge&logo=angular&logoColor=red)
+
+
+
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
 ## Development server
@@ -130,4 +138,11 @@ npm install firebase@11.2.0 --save
 - popover pour faire apparaitre et disparaitre un agenda par exemple ???
 - container ???
 
-## Features
+## Features
+
+
+# Asset Source 
+
+## Font
+
+[CallHeart font](https://www.fontspace.com/callheart-font-f108820)
