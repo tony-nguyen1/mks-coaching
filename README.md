@@ -100,6 +100,8 @@ ng deploy --base-href=/mks-coaching/
 ```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwind init
+
+npm i -D daisyui@latest
 ```
 
 ## Firebase 
@@ -122,9 +124,9 @@ npm install firebase@11.2.0 --save
 
 - Partial hydration
 - Animatations
-- Static Site Generation
+- ~~Static Site Generation~~ il faut un server pour faire ça
 - Mobile First Design
-- TransformStream pour l'inscription ???
+- TransformStream pour l'inscription ??? J'ai oublié ce que ça veut dire ???
 - Me trouver un nouveau shell ? IDE ? éditeur de texte ?
 
 ## CSS/UX/UI
@@ -140,9 +142,12 @@ npm install firebase@11.2.0 --save
 
 ## Features
 
-
 # Asset Source 
 
 ## Font
 
 [CallHeart font](https://www.fontspace.com/callheart-font-f108820)
+
+# Sémentique de Version
+
+[SemVer](https://semver.org/lang/fr/)

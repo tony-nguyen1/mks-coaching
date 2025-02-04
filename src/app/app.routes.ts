@@ -9,8 +9,8 @@ import { ServiceComponent } from './service/service.component';
 
 export const routes: Routes = [
     { path: '', title: 'Accueil', component: HomeComponent },
-    { path: 'contact', title: 'Contact : Horaires', component: ContactComponent },
-    { path: 'service', title: 'Services proposés', component: ServiceComponent },
+    { path: 'contact', title: 'Contact : Horaires', loadComponent: () => import('./contact/contact.component').then(m => m.ContactComponent) },
+    { path: 'service', title: 'Services proposés', loadComponent: () => import('./service/service.component').then(m => m.ServiceComponent) },
     {
         path: 'signup', title: 'Inscription',
         loadComponent: () => import('./sign-up/sign-up.component').then(m => m.SignUpComponent)

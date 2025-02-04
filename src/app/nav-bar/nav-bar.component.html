@@ -12,10 +12,22 @@
         <!-- <a routerLink="/about" class="text-gray-800 hover:text-indigo-600 px-3 py-2">À propos</a> -->
         <a routerLink="/service" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Services</a>
         <a routerLink="/contact" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Contact</a>
-        <button routerLink="/auth"
+        <!-- <button routerLink="/auth"
           class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
           Se connecter
+        </button> -->
+        <button routerLink="/auth" class="btn btn-primary">
+          Se connecter
         </button>
+        @if (darkModeService.darkModeSignal()) {
+        <button (click)="toggleDarkMode()" class="btn btn-active">
+          <img src="img/light_mode.svg" alt="Un petit soleil">
+        </button>
+        } @else {
+        <button (click)="toggleDarkMode()" class="btn btn-active">
+          <img src="img/dark_mode.svg" class="dark" alt="Une petite demi-lune">
+        </button>
+        }
       </div>
 
       <!-- Bouton pour le menu mobile -->
@@ -35,12 +47,19 @@
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <a routerLink="/" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Accueil</a>
       <!-- <a routerLink="/about" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">À propos</a> -->
-      <a routerLink="/services" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Services</a>
+      <a routerLink="/service" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Services</a>
       <a routerLink="/contact" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Contact</a>
 
       <button routerLink="/auth"
         class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
         Se connecter
+      </button>
+      <button (click)="toggleDarkMode()" class="btn btn-active block">
+        @if (darkModeService.darkModeSignal()) {
+        <img src="img/dark_mode.svg" alt="Une petite demi-lune">
+        } @else {
+        <img src="img/light_mode.svg" class="dark" alt="Un petit soleil">
+        }
       </button>
     </div>
   </div>
