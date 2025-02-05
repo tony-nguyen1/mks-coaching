@@ -118,6 +118,14 @@ npm install firebase
 npm install firebase@11.2.0 --save
 ```
 
+## Graph ApexCharts
+
+[Lien](https://github.com/apexcharts/ng-apexcharts) vers le dépôt sur Github ; [leur page web](https://apexcharts.com/).
+
+```bash
+ng add ng-apexcharts
+```
+
 # TODO
 
 ## Techs

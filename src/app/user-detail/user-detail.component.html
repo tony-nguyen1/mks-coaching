@@ -28,7 +28,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr *ngFor="let mesure of user().poids" class="hover:bg-gray-50 transition duration-200">
-              <td class="px-6 py-4 text-sm text-gray-700">{{ mesure.createdAt }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700">{{ mesure.createdAt.toMillis() }}</td>
               <td class="px-6 py-4 text-sm text-gray-700">{{ mesure.poid }}</td>
             </tr>
           </tbody>
@@ -43,5 +43,11 @@
         Retour à la liste
       </a>
     </div> -->
+    <!-- <br> -->
+    @if(!(this.chartOptions===null)) {
+    <apx-chart [series]="chartOptions!.series" [chart]="chartOptions!.chart" [title]="chartOptions!.title"
+      [xaxis]="chartOptions!.xaxis" [markers]="chartOptions!.markers" [annotations]="chartOptions!.annotations">
+    </apx-chart>
+    }
   </div>
 </div>

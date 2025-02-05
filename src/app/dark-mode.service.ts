@@ -13,14 +13,14 @@ export class DarkModeService {
     // this.
     let isDarkModeOn = savedMode ? JSON.parse(savedMode) : false;
     this.darkModeSignal = signal(isDarkModeOn);
+
+    console.log("isDarkModeOn=", isDarkModeOn);
   }
 
   toggleDarkMode(): void {
-    // this.isDarkModeOn = !this.isDarkModeOn;
-    localStorage.setItem(this.DARK_MODE_KEY, JSON.stringify(this.darkModeSignal()));
-
     console.log(`${this.prefix}: sending signal`);
     this.darkModeSignal.set(!this.darkModeSignal());
+    localStorage.setItem(this.DARK_MODE_KEY, JSON.stringify(this.darkModeSignal()));
   }
 
   updateGlobalTheme(aRenderer: Renderer2) {
