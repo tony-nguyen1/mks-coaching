@@ -18,6 +18,15 @@ To start a local development server, run:
 ng serve
 ```
 
+To start a local server usable with a smartphone connected to the same network, run : 
+```bash
+ip a | grep "inet "
+```
+
+```bash
+ng serve --host xxx.xxx.xxx.xxx  --port 4200
+```
+
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding

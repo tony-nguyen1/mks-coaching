@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 // Firestore
 import { initializeApp } from "firebase/app";
-import { DocumentReference, getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
+import { arrayUnion, DocumentReference, getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
 import { Timestamp } from 'firebase/firestore';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { getDocs, DocumentData, getDoc, doc, getDocFromCache } from "firebase/firestore";
 import { FIREBASE_CONFIG } from "./environment";
 // Firestore
@@ -83,6 +83,21 @@ export class UserService {
       }
     }
   }
+
+  static async addMesure(userId: string, aNewPoids: Mesure) {
+    const docRef = doc(UserService.db, "user", userId);
+    // To update age and favorite color:
+    // let newData = Array.from(newPoids, (uneMesure: Mesure) => {
+    //   console.log(uneMesure.toJson());
+    //   return uneMesure.toJson();
+    // });
+    // console.log("newData=", newData);
+    await updateDoc(docRef, {
+      poids: arrayUnion(aNewPoids.toJson())
+    }).then(() => {
+      console.log(`UserService: user ${userId} updated`);
+    });
+  }
 }
 
 export class User {
@@ -148,5 +163,9 @@ export class Mesure {
     s += `poid: ${this.poid},`;
     s += `createdAt: ${this.createdAt.toString()}`;
     return s + "}";
+  }
+
+  public toJson() {
+    return { unPoid: this.poid, createdAt: this.createdAt };
   }
 }

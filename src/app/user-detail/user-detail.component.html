@@ -49,5 +49,19 @@
       [xaxis]="chartOptions!.xaxis" [markers]="chartOptions!.markers" [annotations]="chartOptions!.annotations">
     </apx-chart>
     }
+
+    <form [formGroup]="mesureForm" (ngSubmit)="handleSubmit()">
+      <div class="mb-4">
+        <label for="mesure" class="block text-sm font-medium text-gray-700">Poids</label>
+        <input type="number" id="mesure" name="mesure"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Par exemple: 54kg" formControlName="mesure" required />
+      </div>
+      <!-- [disabled]="profileForm.invalid" -->
+      <button type="submit" class="btn btn-primary w-full">
+        Ajouter
+      </button>
+      <!-- <p>Bonjour {{mesure?.value}}</p> -->
+    </form>
   </div>
 </div>

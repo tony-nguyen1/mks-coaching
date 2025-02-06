@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Input } from '@angular/core';
 import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore"
 import { Signal, signal } from '@angular/core';
@@ -16,6 +17,16 @@ import {
   NgApexchartsModule, ApexMarkers, ApexAnnotations
 } from "ng-apexcharts";
 
+// Firestore
+import { initializeApp } from "firebase/app";
+import { DocumentReference, getFirestore } from "firebase/firestore";
+import { Timestamp } from 'firebase/firestore';
+import { collection, addDoc } from "firebase/firestore";
+import { FIREBASE_CONFIG } from "../environment";
+// Firestore
+
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -26,7 +37,7 @@ export type ChartOptions = {
 };
 @Component({
   selector: 'app-user-details',
-  imports: [CommonModule, RouterModule, NgApexchartsModule], // Importez RouterModule pour utiliser routerLink
+  imports: [CommonModule, RouterModule, NgApexchartsModule, ReactiveFormsModule],
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css'],
 })
@@ -35,10 +46,10 @@ export class UserDetailComponent {
   user = signal(User.construct());
   public chartOptions: ChartOptions | null;
   // public mark : ApexMarkers = 
-
-  constructor() {
+  // public inscriptionForm: FormGroup;
+  public mesureForm: FormGroup;
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.userId = "";
-    // this.chartOptions = {
     //   annotations: {
     //     yaxis: [{
     //       y: 75,
@@ -146,8 +157,20 @@ export class UserDetailComponent {
     //   }
     // };
     this.chartOptions = null;
+    this.mesureForm = this.fb.group({
+      mesure: ['', []]
+    });
   }
-
+  get mesure() { return this.mesureForm.get('mesure'); }
+  handleSubmit() {
+    console.log("it clicked!");
+    let aUser: User;
+    aUser = this.user();
+    // aUser.poids.push({ poid: this.mesure?.value, createdAt: Timestamp.now() } as Mesure);
+    let aNewMesure = new Mesure(this.mesure?.value, Timestamp.now());
+    // console.log("UserDetailComponent: ", this.user());
+    UserService.addMesure(this.userId, aNewMesure).then(() => { aUser.poids.push(aNewMesure); });
+  }
   @Input()
   set id(userId: string) { // nom de la fonction match le nom du paramètre écris dans la route
     console.log(`UserDetailComponent: recieved ${userId} from the route`);
@@ -281,6 +304,35 @@ export class UserDetailComponent {
       }
     };
   }
+
+  async soumettre() {
+    console.log("UserDetailComponent: ", this.user);
+    // if (this.inscriptionForm.valid) {
+    //   // Générer un timestamp comme ID du document
+    //   const timestamp = Date.now().toString(); // ou utiliser `Timestamp.now().toMillis().toString()`
+
+    //   const docRef = await addDoc(collection(db, "user"), {
+    //     email: this.inscriptionForm.value.email,
+    //     // password: this.inscriptionForm.value.password, // BAD !!!
+    //     nom: this.inscriptionForm.value.nom,
+    //     prenom: this.inscriptionForm.value.prenom,
+    //     age: this.inscriptionForm.value.age,
+    //     poids: [{ unPoid: this.inscriptionForm.value.poids, createdAt: Timestamp.now() }],
+    //     pseudo: this.inscriptionForm.value.pseudo,
+    //     createdAt: Timestamp.now(), // Ajouter un champ timestamp pour la date de création
+    //     role: "client" // "admin" ; "max" ;  
+    //   }).then((d: DocumentReference) => {
+
+    //     console.log('Document écrit avec ID :', d.id, ' ts :', timestamp);
+    //   }).catch(error => {
+    //     console.error('Erreur lors de l\'ajout du document :', error);
+    //   });
+    //   console.log('Après écriture du Document');
+    // } else {
+    //   console.error('Formulaire invalide');
+    // }
+  }
+
 }
 
 

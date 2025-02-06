@@ -54,25 +54,6 @@ export class SignUpComponent {
     }
   }
 
-  // Soumettre le formulaire
-  // soumettre() {
-  //   if (true) { //this.inscriptionForm.valid) {
-  //     console.log('Formulaire soumis', this.inscriptionForm.value);
-  //     // Ici, vous pouvez envoyer les données à votre backend ou à Firebase
-  //     try {
-  //       const docRef = addDoc(collection(db, "user"), {
-  //         first: "Ada",
-  //         last: "Lovelace",
-  //         born: 1815
-  //       });
-  //       console.log("Document written with ID: ", docRef);
-  //     } catch (e) {
-  //       console.error("Error adding document: ", e);
-  //     }
-  //   } else {
-  //     console.error('Formulaire invalide');
-  //   }
-  // }
   async soumettre() {
     if (this.inscriptionForm.valid) {
       // Générer un timestamp comme ID du document
