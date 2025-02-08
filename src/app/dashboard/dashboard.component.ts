@@ -19,7 +19,9 @@ import { collection, getDocs, DocumentData } from "firebase/firestore";
 import { FIREBASE_CONFIG } from "../environment";
 // Firestore
 
-import { UsersData, UserService, User, Mesure } from "../user.service";
+import { UsersData, UserService } from "../user.service";
+import { MyUser } from "../my-user.model";
+import { Mesure } from "../mesure.model";
 
 // Initialize Firebase
 const app: FirebaseApp = initializeApp(FIREBASE_CONFIG);
@@ -48,7 +50,7 @@ const db: Firestore = getFirestore(app);
 export class DashboardComponent {
   data: QueryDocumentSnapshot<DocumentData, DocumentData>[] | null;
   public mySignal: any;
-  public a: Array<User>;
+  public a: Array<MyUser>;
   public loading: boolean = true;
 
   formattedDate = Date.toLocaleString();
@@ -77,7 +79,7 @@ export class DashboardComponent {
     this.loading = false;
   }
 
-  findLastWeight(aUser: User): number {
+  findLastWeight(aUser: MyUser): number {
     const sortedWeights: Array<Mesure> = aUser.poids.sort(
       (a: Mesure, b: Mesure) => {
         const dateA = (a.createdAt as Timestamp).toDate().getTime(); // Convertir en timestamp

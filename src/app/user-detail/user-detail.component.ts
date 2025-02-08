@@ -1,54 +1,66 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Input } from '@angular/core';
-import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore"
-import { Signal, signal } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Input } from "@angular/core";
+import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+import { Signal, signal } from "@angular/core";
 
-import { UserService, User, Mesure } from '../user.service';
+import { UserService } from "../user.service";
+import { MyUser } from "../my-user.model";
 import {
   ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
-  NgApexchartsModule, ApexMarkers, ApexAnnotations
+  NgApexchartsModule,
+  ApexMarkers,
+  ApexAnnotations,
 } from "ng-apexcharts";
 
 // Firestore
 import { initializeApp } from "firebase/app";
 import { DocumentReference, getFirestore } from "firebase/firestore";
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 import { FIREBASE_CONFIG } from "../environment";
 // Firestore
 
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormControl } from "@angular/forms";
+import { Mesure } from "../mesure.model";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
   title: ApexTitleSubtitle;
-  markers: ApexMarkers,
-  annotations: ApexAnnotations
+  markers: ApexMarkers;
+  annotations: ApexAnnotations;
 };
 @Component({
-  selector: 'app-user-details',
-  imports: [CommonModule, RouterModule, NgApexchartsModule, ReactiveFormsModule],
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.css'],
+  selector: "app-user-details",
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgApexchartsModule,
+    ReactiveFormsModule,
+  ],
+  templateUrl: "./user-detail.component.html",
+  styleUrls: ["./user-detail.component.css"],
 })
 export class UserDetailComponent {
   userId: string;
-  user = signal(User.construct());
+  user = signal(MyUser.construct());
   public chartOptions: ChartOptions | null;
-  // public mark : ApexMarkers = 
+  // public mark : ApexMarkers =
   // public inscriptionForm: FormGroup;
   public mesureForm: FormGroup;
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+  ) {
     this.userId = "";
     //   annotations: {
     //     yaxis: [{
@@ -158,34 +170,44 @@ export class UserDetailComponent {
     // };
     this.chartOptions = null;
     this.mesureForm = this.fb.group({
-      mesure: ['', []]
+      mesure: ["", []],
     });
   }
-  get mesure() { return this.mesureForm.get('mesure'); }
+  get mesure() {
+    return this.mesureForm.get("mesure");
+  }
   handleSubmit() {
     console.log("it clicked!");
-    let aUser: User;
+    let aUser: MyUser;
     aUser = this.user();
     // aUser.poids.push({ poid: this.mesure?.value, createdAt: Timestamp.now() } as Mesure);
     let aNewMesure = new Mesure(this.mesure?.value, Timestamp.now());
     // console.log("UserDetailComponent: ", this.user());
-    UserService.addMesure(this.userId, aNewMesure).then(() => { aUser.poids.push(aNewMesure); });
+    UserService.addMesure(this.userId, aNewMesure).then(() => {
+      aUser.poids.push(aNewMesure);
+    });
   }
   @Input()
-  set id(userId: string) { // nom de la fonction match le nom du paramètre écris dans la route
+  set id(userId: string) {
+    // nom de la fonction match le nom du paramètre écris dans la route
     console.log(`UserDetailComponent: recieved ${userId} from the route`);
 
     this.userId = userId;
-    const unUser: Promise<User> = UserService.getDetails(userId);
-    unUser.then((user: User) => {
-      console.log('in input', user.toString());
+    const unUser: Promise<MyUser> = UserService.getDetails(userId);
+    unUser.then((user: MyUser) => {
+      console.log("in input", user.toString());
       this.user.set(user); // reactively rerender component
       console.log(this.user());
 
-
       let usableDataUser: Array<[number, number]>;
       // convert timestamp into number for compatibility w/ ApexChart
-      usableDataUser = Array.from(this.user().poids, (uneMesure: Mesure, key: number) => ([uneMesure.createdAt.toMillis(), uneMesure.poid]));
+      usableDataUser = Array.from(
+        this.user().poids,
+        (uneMesure: Mesure, key: number) => [
+          uneMesure.createdAt.toMillis(),
+          uneMesure.poid,
+        ],
+      );
       this.makeChart(usableDataUser);
     });
   }
@@ -195,89 +217,92 @@ export class UserDetailComponent {
 
     this.chartOptions = {
       annotations: {
-        yaxis: [{
-          y: 75,
-          // y2: null,
-          strokeDashArray: 16,
-          borderColor: '#ff0000',
-          // fillColor: '#c2c2c2',
-          // opacity: 1,
-          offsetX: 0,
-          offsetY: -6,
-          width: '100%',
-          // yAxisIndex: 0,
-          label: {
-            borderColor: '#c2c2c2',
-            borderWidth: 1,
-            borderRadius: 2,
-            text: "Goal",
-            textAnchor: 'end',
-            position: 'right',
+        yaxis: [
+          {
+            y: 75,
+            // y2: null,
+            strokeDashArray: 16,
+            borderColor: "#ff0000",
+            // fillColor: '#c2c2c2',
+            // opacity: 1,
             offsetX: 0,
-            offsetY: 0,
-            mouseEnter: undefined,
-            mouseLeave: undefined,
-            click: undefined,
-            style: {
-              background: '#fff',
-              color: '#777',
-              fontSize: '12px',
-              fontWeight: 400,
-              fontFamily: undefined,
-              cssClass: 'apexcharts-yaxis-annotation-label',
-              padding: {
-                left: 6,
-                right: 6,
-                top: 2,
-                bottom: 2,
-              }
+            offsetY: -6,
+            width: "100%",
+            // yAxisIndex: 0,
+            label: {
+              borderColor: "#c2c2c2",
+              borderWidth: 1,
+              borderRadius: 2,
+              text: "Goal",
+              textAnchor: "end",
+              position: "right",
+              offsetX: 0,
+              offsetY: 0,
+              mouseEnter: undefined,
+              mouseLeave: undefined,
+              click: undefined,
+              style: {
+                background: "#fff",
+                color: "#777",
+                fontSize: "12px",
+                fontWeight: 400,
+                fontFamily: undefined,
+                cssClass: "apexcharts-yaxis-annotation-label",
+                padding: {
+                  left: 6,
+                  right: 6,
+                  top: 2,
+                  bottom: 2,
+                },
+              },
             },
           },
-        }, {
-          y: 30,
-          // y2: null,
-          strokeDashArray: 16,
-          borderColor: '#ff0000',
-          // fillColor: '#c2c2c2',
-          // opacity: 1,
-          offsetX: 0,
-          offsetY: -6,
-          width: '100%',
-          // yAxisIndex: 0,
-          label: {
-            borderColor: '#c2c2c2',
-            borderWidth: 1,
-            borderRadius: 2,
-            text: "Record personel",
-            textAnchor: 'end',
-            position: 'right',
+          {
+            y: 30,
+            // y2: null,
+            strokeDashArray: 16,
+            borderColor: "#ff0000",
+            // fillColor: '#c2c2c2',
+            // opacity: 1,
             offsetX: 0,
-            offsetY: 0,
-            mouseEnter: undefined,
-            mouseLeave: undefined,
-            click: undefined,
-            style: {
-              background: '#fff',
-              color: '#777',
-              fontSize: '12px',
-              fontWeight: 400,
-              fontFamily: undefined,
-              cssClass: 'apexcharts-yaxis-annotation-label',
-              padding: {
-                left: 6,
-                right: 6,
-                top: 2,
-                bottom: 2,
-              }
+            offsetY: -6,
+            width: "100%",
+            // yAxisIndex: 0,
+            label: {
+              borderColor: "#c2c2c2",
+              borderWidth: 1,
+              borderRadius: 2,
+              text: "Record personel",
+              textAnchor: "end",
+              position: "right",
+              offsetX: 0,
+              offsetY: 0,
+              mouseEnter: undefined,
+              mouseLeave: undefined,
+              click: undefined,
+              style: {
+                background: "#fff",
+                color: "#777",
+                fontSize: "12px",
+                fontWeight: 400,
+                fontFamily: undefined,
+                cssClass: "apexcharts-yaxis-annotation-label",
+                padding: {
+                  left: 6,
+                  right: 6,
+                  top: 2,
+                  bottom: 2,
+                },
+              },
             },
           },
-        }]
+        ],
       },
       markers: {
         size: 3,
         colors: ["red"],
-        strokeColors: '#fff',
-        shape: "circle"
+        strokeColors: "#fff",
+        shape: "circle",
         // hover: {
         //   size: 8,
         //   sizeOffset: 10
@@ -286,22 +311,22 @@ export class UserDetailComponent {
       series: [
         {
           name: "Poids moyen au cours de ce mois",
-          data: dataUser//[10, 41, 35, 51, 49, null, null, 91, 148]
-        }
+          data: dataUser, //[10, 41, 35, 51, 49, null, null, 91, 148]
+        },
       ],
       chart: {
         height: 350,
-        type: "line"
+        type: "line",
       },
       title: {
-        text: "Mon poids"
+        text: "Mon poids",
       },
       xaxis: {
-        type: 'datetime',
-        min: new Date('31 Jan 2025').getTime(),
+        type: "datetime",
+        min: new Date("31 Jan 2025").getTime(),
         tickAmount: 6,
         // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-      }
+      },
     };
   }
 
@@ -320,7 +345,7 @@ export class UserDetailComponent {
     //     poids: [{ unPoid: this.inscriptionForm.value.poids, createdAt: Timestamp.now() }],
     //     pseudo: this.inscriptionForm.value.pseudo,
     //     createdAt: Timestamp.now(), // Ajouter un champ timestamp pour la date de création
-    //     role: "client" // "admin" ; "max" ;  
+    //     role: "client" // "admin" ; "max" ;
     //   }).then((d: DocumentReference) => {
 
     //     console.log('Document écrit avec ID :', d.id, ' ts :', timestamp);
@@ -332,8 +357,4 @@ export class UserDetailComponent {
     //   console.error('Formulaire invalide');
     // }
   }
-
 }
-
-
-

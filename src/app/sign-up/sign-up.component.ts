@@ -7,7 +7,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { DocumentReference, Timestamp } from "firebase/firestore";
-import { User, UserService } from "../user.service";
+import { UserService } from "../user.service";
+import { MyUser } from "../my-user.model";
 
 export const StrongPasswordRegx: RegExp =
   /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
@@ -68,7 +69,7 @@ export class SignUpComponent {
       //   createdAt: Timestamp.now(), // Ajouter un champ timestamp pour la date de création
       //   role: "client" // "admin" ; "max" ;
       // };
-      const aUser: User = new User(
+      const aUser: MyUser = new MyUser(
         "",
         this.inscriptionForm.value.nom,
         this.inscriptionForm.value.prenom,

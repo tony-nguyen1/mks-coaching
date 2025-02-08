@@ -8,7 +8,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  User as UserMetaData,
+  User as FirebaseUser,
 } from "firebase/auth";
 
 import { RouterModule } from "@angular/router";
@@ -21,6 +21,7 @@ export const StrongPasswordRegx: RegExp =
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { UserService } from "../user.service";
+import { AuthentificationService } from "../authentification.service";
 
 const prefix: string = "AuthentificationComponent:";
 @Component({
@@ -36,6 +37,7 @@ const prefix: string = "AuthentificationComponent:";
 })
 export class AuthentificationComponent {
   private formBuilder = inject(FormBuilder);
+  private authService = inject(AuthentificationService);
 
   constructor(private router: Router) {}
   profileForm: FormGroup = this.formBuilder.group({
@@ -61,11 +63,11 @@ export class AuthentificationComponent {
 
   connect(email: string, password: string) {
     console.log(prefix, "connecting");
-    let answer = UserService.signIn(email, password);
+    let answer = this.authService.signIn(email, password);
     answer.then(
-      (value: UserMetaData) => {
+      (value: FirebaseUser) => {
         console.log(prefix, "connected successfully");
-        console.log(prefix, "UserMetaData=", value);
+        console.log(prefix, "FirebaseUser=", value);
         UserService.getUserDocIdFromUID(value.uid).then(
           (aUser) => {
             console.log(prefix, `idDocument=${aUser.userId}`);
