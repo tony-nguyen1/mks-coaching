@@ -116,11 +116,11 @@ export class UserService {
 
     // return snapshot;
   }
-  static async getDetails(userId: string): Promise<MyUser> {
+  static async searchMyUserByDocId(docId: string): Promise<MyUser> {
     console.log("Service getDetails()");
     // const querySnapshot = await getDocs(collection(UserService.db, "user"));
 
-    const docRef = doc(UserService.db, "user", userId);
+    const docRef = doc(UserService.db, "user", docId);
     try {
       console.log("is data cached ?");
       const docSnap = await getDocFromCache(docRef);

@@ -188,12 +188,12 @@ export class UserDetailComponent {
     });
   }
   @Input()
-  set id(userId: string) {
+  set id(docId: string) {
     // nom de la fonction match le nom du paramètre écris dans la route
-    console.log(`UserDetailComponent: recieved ${userId} from the route`);
+    console.log(`UserDetailComponent: recieved ${docId} from the route`);
 
-    this.userId = userId;
-    const unUser: Promise<MyUser> = UserService.getDetails(userId);
+    this.userId = docId;
+    const unUser: Promise<MyUser> = UserService.searchMyUserByDocId(docId);
     unUser.then((user: MyUser) => {
       console.log("in input", user.toString());
       this.user.set(user); // reactively rerender component

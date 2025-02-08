@@ -22,6 +22,7 @@ export const StrongPasswordRegx: RegExp =
 import { initializeApp } from "firebase/app";
 import { UserService } from "../user.service";
 import { AuthentificationService } from "../authentification.service";
+import { MyUser } from "../my-user.model";
 
 const prefix: string = "AuthentificationComponent:";
 @Component({
@@ -69,14 +70,14 @@ export class AuthentificationComponent {
         console.log(prefix, "connected successfully");
         console.log(prefix, "FirebaseUser=", value);
         UserService.getUserDocIdFromUID(value.uid).then(
-          (aUser) => {
-            console.log(prefix, `idDocument=${aUser.userId}`);
+          (aUser: MyUser) => {
+            console.log(prefix, `idDocument=${aUser.docId}`);
             if (aUser.role === "admin") {
               console.log(prefix, "redirecting to /dashboard");
               this.router.navigate(["/dashboard"]);
             } else if (aUser.role === "client") {
               console.log(prefix, "redirecting to /user");
-              this.router.navigate(["/dashboard/user/", aUser.userId]);
+              this.router.navigate(["/dashboard/user/", aUser.docId]);
             } else {
               throw new Error("role is supposed to be either admin or client");
             }

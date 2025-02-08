@@ -50,16 +50,16 @@
       <tbody>
         <tr *ngFor="let aDataPoint of a">
           <td>
-            {{aDataPoint.userId}}
+            {{ aDataPoint.docId }}
           </td>
           <td>
-            {{aDataPoint.nom}}
+            {{ aDataPoint.nom }}
           </td>
           <td>
-            {{aDataPoint.age}}
+            {{ aDataPoint.age }}
           </td>
           <td>
-            {{aDataPoint.email}}
+            {{ aDataPoint.email }}
           </td>
           <!-- <td>
             {{aDataPoint.poids[-1].poid}}
@@ -68,9 +68,12 @@
             {{ this.findLastWeight(aDataPoint) }}
           </td>
           <td>
-            {{dateToStringFormat(aDataPoint.createdAt.toDate())}}
+            {{ dateToStringFormat(aDataPoint.createdAt.toDate()) }}
           </td>
-          <button [routerLink]="['/dashboard/user/',aDataPoint.userId]" class="btn btn-primary py-3 px-8 ">
+          <button
+            [routerLink]="['/dashboard/user/', aDataPoint.docId]"
+            class="btn btn-primary py-3 px-8"
+          >
             Détails
           </button>
         </tr>

@@ -2,7 +2,7 @@ import { Timestamp } from "firebase/firestore";
 import { Mesure } from "./mesure.model";
 
 export class MyUser {
-  public userId: string;
+  public docId: string;
   public nom: string;
   public prenom: string;
   public email: string;
@@ -26,7 +26,7 @@ export class MyUser {
   }
 
   constructor(
-    unUserId: string,
+    aDocId: string,
     nom: string,
     prenom: string,
     email: string,
@@ -35,7 +35,7 @@ export class MyUser {
     desPoids: Array<any>,
     role: string,
   ) {
-    this.userId = unUserId;
+    this.docId = aDocId;
     this.nom = nom;
     this.prenom = prenom;
     this.email = email;
