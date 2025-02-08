@@ -145,6 +145,7 @@ ng add ng-apexcharts
 - Mobile First Design
 - TransformStream pour l'inscription ??? J'ai oublié ce que ça veut dire ???
 - Me trouver un nouveau shell ? IDE ? éditeur de texte ?
+- angular ErrorHandler
 
 ## CSS/UX/UI
 
@@ -161,9 +162,16 @@ ng add ng-apexcharts
 
 # Asset Source 
 
+## Autres
+
+[web.dev](https://web.dev/baseline?hl=fr)
+[Excalidraw](https://excalidraw.com/)
+
 ## Font
 
 [CallHeart font](https://www.fontspace.com/callheart-font-f108820)
+
+[Google font](https://fonts.google.com/?lang=fr_Latn&categoryFilters=Calligraphy:%2FScript%2FHandwritten&icon.size=24&icon.color=%23e8eaed&icon.platform=web)
 
 # Sémentique de Version
 

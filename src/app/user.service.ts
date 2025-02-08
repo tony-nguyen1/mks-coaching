@@ -1,28 +1,179 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 // Firestore
 import { initializeApp } from "firebase/app";
-import { arrayUnion, DocumentReference, getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
-import { Timestamp } from 'firebase/firestore';
-import { collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { getDocs, DocumentData, getDoc, doc, getDocFromCache } from "firebase/firestore";
+import {
+  arrayUnion,
+  DocumentReference,
+  getFirestore,
+  query,
+  QueryDocumentSnapshot,
+  where,
+} from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import {
+  getDocs,
+  DocumentData,
+  getDoc,
+  doc,
+  getDocFromCache,
+} from "firebase/firestore";
 import { FIREBASE_CONFIG } from "./environment";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  User as UserMetaData,
+  UserMetadata,
+} from "firebase/auth";
+import { QuerySnapshot } from "firebase/firestore";
 // Firestore
 
-import { Input } from '@angular/core';
+export type UsersData = {
+  [id: string]: User;
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
+  static prefix: string = "UserService:";
   // Initialize Firebase
   static app = initializeApp(FIREBASE_CONFIG);
 
   // Initialize Cloud Firestore and get a reference to the service
   static db = getFirestore(UserService.app);
 
-  constructor() { }
+  constructor() {
+    /* TODO: implement singleton */
+  }
 
+  static async getUserDocIdFromUID(userID: string): Promise<User> {
+    const q = query(
+      collection(UserService.db, "user"),
+      where("UID", "==", userID),
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const docSnap = querySnapshot.docs.at(0)!;
+      return Promise.resolve(
+        new User(
+          docSnap.id,
+          docSnap.data()["nom"],
+          docSnap.data()["prenom"],
+          docSnap.data()["email"],
+          docSnap.data()["age"],
+          docSnap.data()["createdAt"],
+          docSnap.data()["poids"],
+          docSnap.data()["role"],
+        ),
+      );
+    } else {
+      throw new Error(`getUserDocIdFromUID(${userID})`);
+    }
+  }
+
+  static async signIn(email: string, password: string): Promise<UserMetaData> {
+    try {
+      const auth = getAuth();
+      let userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const userMetaData = userCredential.user;
+
+      return Promise.resolve(userMetaData);
+    } catch (error) {
+      return Promise.reject(
+        "Email and password do not match w/ Firebase Authentification",
+      );
+    }
+  }
+
+  static async signUp(aUser: User) {
+    throw new Error("Not yet implemented");
+  }
+
+  static async createUserAccount(email: string, password: string) {
+    throw new Error("Not yet implemented");
+  }
+  static isConnected(): boolean {
+    throw new Error("Not yet implemented");
+  }
+  static async getConnectedUser(): Promise<User> {
+    console.log("UserService: getConnectedUser()");
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      console.log("UserService: user=", user);
+
+      // TODO: get user from localstorage
+    } else {
+      console.log("No user is signed in");
+      // No user is signed in.
+    }
+    return Promise.resolve(User.construct());
+  }
+
+  static async createUser(aUser: User) {
+    return await addDoc(collection(this.db, "user"), aUser.toJSON());
+  }
+
+  static async getUsers(): Promise<Array<User>> {
+    let snapshot = await getDocs(collection(UserService.db, "user"));
+    let users: Array<User> = [];
+    // users[''] = new User("", "", "", "", 0, Timestamp.now(), []);
+    snapshot.forEach(
+      (result: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+        // console.log(`${result.id} => `, result.data());
+        users.push(
+          new User(
+            result.id,
+            result.get("nom"),
+            result.get("prenom"),
+            result.get("email"),
+            result.get("age"),
+            result.get("createdAt"),
+            result.get("poids"),
+            result.get("role"),
+          ),
+        );
+      },
+    );
+
+    const arrayOfClientUsers: Array<User> = Array.from(
+      snapshot.docs,
+      (result) =>
+        new User(
+          result.id,
+          result.get("nom"),
+          result.get("prenom"),
+          result.get("email"),
+          result.get("age"),
+          result.get("createdAt"),
+          result.get("poids"),
+          result.get("role"),
+        ),
+    ).filter((aUser: User) => aUser.role === "client");
+
+    // console.log("testing: array=", arrayOfClientUsers);
+
+    return Promise.resolve(arrayOfClientUsers);
+    // console.log("testing:", users);
+
+    // return snapshot;
+  }
   static async getDetails(userId: string): Promise<User> {
     console.log("Service getDetails()");
     // const querySnapshot = await getDocs(collection(UserService.db, "user"));
@@ -32,68 +183,50 @@ export class UserService {
       console.log("is data cached ?");
       const docSnap = await getDocFromCache(docRef);
 
-      if (docSnap.exists()) {
-        console.log('data is cached !');
-        console.log("Cached document data:", docSnap.data());
-        // console.log("Document data from cache:", docSnap.data());
-        // return docSnap.data();
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-        // return null;
-      }
-      // Document was found in the cache. If no cached document exists,
-      // an error will be returned to the 'catch' block below.
+      console.log("data is cached !");
 
-      return docSnap.exists() ? new User(
+      return new User(
         docSnap.id,
-        docSnap.data()['nom'],
-        docSnap.data()['prenom'],
-        docSnap.data()['email'],
-        docSnap.data()['age'],
-        docSnap.data()['createdAt'],
-        docSnap.data()['poids']
-      ) : User.construct();
+        docSnap.data()!["nom"],
+        docSnap.data()!["prenom"],
+        docSnap.data()!["email"],
+        docSnap.data()!["age"],
+        docSnap.data()!["createdAt"],
+        docSnap.data()!["poids"],
+        docSnap.data()!["role"],
+      );
     } catch (error) {
-      console.log("errror getting cached document, dw");//, error);
-      const docSnap = await getDoc(docRef);
-
+      console.log(
+        "errror getting cached document, dw, expected behavior, it means data was not cached",
+      );
       console.log("retrieving Document data from server");
-      if (docSnap.exists()) {
-        console.log('found it');
-        // console.log("Retrieving Document data from server:", docSnap.data());
-        // console.log('data isn\'t cached');
-        // let v = cityConverter.fromFirestore(docSnap, null);
-        // console.log(v);
 
-        let u = new User(
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("found it");
+
+        return new User(
           docSnap.id,
-          docSnap.data()['nom'],
-          docSnap.data()['prenom'],
-          docSnap.data()['email'],
-          docSnap.data()['age'],
-          docSnap.data()['createdAt'],
-          docSnap.data()['poids']
+          docSnap.data()["nom"],
+          docSnap.data()["prenom"],
+          docSnap.data()["email"],
+          docSnap.data()["age"],
+          docSnap.data()["createdAt"],
+          docSnap.data()["poids"],
+          docSnap.data()["role"],
         );
-        return u;
       } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-        return User.construct();
+        throw new Error(
+          "No such document! userId did not match any documents in the database",
+        );
       }
     }
   }
 
   static async addMesure(userId: string, aNewPoids: Mesure) {
     const docRef = doc(UserService.db, "user", userId);
-    // To update age and favorite color:
-    // let newData = Array.from(newPoids, (uneMesure: Mesure) => {
-    //   console.log(uneMesure.toJson());
-    //   return uneMesure.toJson();
-    // });
-    // console.log("newData=", newData);
     await updateDoc(docRef, {
-      poids: arrayUnion(aNewPoids.toJson())
+      poids: arrayUnion(aNewPoids.toJson()),
     }).then(() => {
       console.log(`UserService: user ${userId} updated`);
     });
@@ -101,23 +234,39 @@ export class UserService {
 }
 
 export class User {
-  // Propriétés privées
   public userId: string;
   public nom: string;
   public prenom: string;
   public email: string;
   public age: number;
-  // private password: string;
   public createdAt: Timestamp;
-  // private updatedAt: Date;
   public poids: Array<Mesure>;
+  public role: string;
 
   static construct() {
-    let newUser = new User("", "", "", "", 0, new Timestamp(0, 0), new Array());
+    let newUser = new User(
+      "",
+      "",
+      "",
+      "",
+      0,
+      new Timestamp(0, 0),
+      new Array(),
+      "client",
+    );
     return newUser;
   }
 
-  constructor(unUserId: string, nom: string, prenom: string, email: string, age: number, createdAt: Timestamp, desPoids: Array<any>) {
+  constructor(
+    unUserId: string,
+    nom: string,
+    prenom: string,
+    email: string,
+    age: number,
+    createdAt: Timestamp,
+    desPoids: Array<any>,
+    role: string,
+  ) {
     this.userId = unUserId;
     this.nom = nom;
     this.prenom = prenom;
@@ -126,8 +275,9 @@ export class User {
     this.createdAt = createdAt;
     this.poids = [];
     desPoids.forEach((uneMesure) => {
-      this.poids.push(new Mesure(uneMesure['unPoid'], uneMesure['createdAt']));
+      this.poids.push(new Mesure(uneMesure["unPoid"], uneMesure["createdAt"]));
     });
+    this.role = role;
   }
 
   // // Méthode pour afficher les informations de l'utilisateur
@@ -136,17 +286,26 @@ export class User {
   }
 
   // Méthode pour convertir l'objet en JSON
-  // public toJSON(): object {
-  //   return {
-  //     id: this.id,
-  //     firstName: this.firstName,
-  //     lastName: this.lastName,
-  //     email: this.email,
-  //     age: this.age,
-  //     createdAt: this.createdAt,
-  //     updatedAt: this.updatedAt,
-  //   };
-  // }
+  public toJSON(): object {
+    let p: Array<object>;
+    p = Array.from(this.poids, (uneMesure: Mesure) => uneMesure.toJson());
+    let o: object;
+    o = {
+      // id: this.userId,
+      nom: this.nom,
+      prenom: this.prenom,
+      email: this.email,
+      age: this.age,
+      pseudo: "",
+      createdAt: this.createdAt,
+      role: "client",
+      poids: p,
+      // updatedAt: this.updatedAt,
+    };
+
+    // console.log();
+    return o;
+  }
 }
 
 export class Mesure {

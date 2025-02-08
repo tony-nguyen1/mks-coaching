@@ -1,51 +1,58 @@
-import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { Component, inject } from "@angular/core";
+import { ReactiveFormsModule, FormControl, FormGroup } from "@angular/forms";
+import { Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  User as UserMetaData,
+} from "firebase/auth";
 
-import { RouterModule } from '@angular/router';
+import { RouterModule } from "@angular/router";
 
-import { FIREBASE_CONFIG } from '../environment';
+import { FIREBASE_CONFIG } from "../environment";
 
 export const StrongPasswordRegx: RegExp =
   /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { UserService } from "../user.service";
 
-
-// Initialize Firebase
-const app = initializeApp(FIREBASE_CONFIG);
-
+const prefix: string = "AuthentificationComponent:";
 @Component({
-  selector: 'app-authentification',
+  selector: "app-authentification",
   standalone: true,
   imports: [
     ReactiveFormsModule, // Import du module nécessaire pour les formulaires réactifs
     CommonModule,
-    RouterModule
+    RouterModule,
   ],
-  templateUrl: './authentification.component.html',
-  styleUrl: './authentification.component.css'
+  templateUrl: "./authentification.component.html",
+  styleUrl: "./authentification.component.css",
 })
 export class AuthentificationComponent {
   private formBuilder = inject(FormBuilder);
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
   profileForm: FormGroup = this.formBuilder.group({
-    password: ['', [Validators.required, Validators.pattern(StrongPasswordRegx)]],
-    email: ['', [Validators.required, Validators.email]]
+    // password: ['', [Validators.required, Validators.pattern(StrongPasswordRegx)]],
+    password: ["", [Validators.required]],
+    email: ["", [Validators.required, Validators.email]],
   });
 
-  get password() { return this.profileForm.get('password'); }
-  get email() { return this.profileForm.get('email'); }
-
+  get password() {
+    return this.profileForm.get("password");
+  }
+  get email() {
+    return this.profileForm.get("email");
+  }
 
   onSubmit(): void {
-    console.log("Click")
+    console.log("Click");
   }
 
   handleSubmit() {
@@ -53,30 +60,33 @@ export class AuthentificationComponent {
   }
 
   connect(email: string, password: string) {
-    console.log("Service connect")
-    const auth = getAuth();
-
-    signInWithEmailAndPassword
-      // createUserWithEmailAndPassword
-      (auth, email, password)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        // console.log(user);
-        console.log(user.email);
-        console.log(user.displayName);
-        console.log(user.phoneNumber);
-        console.log(user.metadata.creationTime);
-        console.log(user.metadata.lastSignInTime);
-
-        this.router.navigate(['/dashboard']);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    console.log(prefix, "connecting");
+    let answer = UserService.signIn(email, password);
+    answer.then(
+      (value: UserMetaData) => {
+        console.log(prefix, "connected successfully");
+        console.log(prefix, "UserMetaData=", value);
+        UserService.getUserDocIdFromUID(value.uid).then(
+          (aUser) => {
+            console.log(prefix, `idDocument=${aUser.userId}`);
+            if (aUser.role === "admin") {
+              console.log(prefix, "redirecting to /dashboard");
+              this.router.navigate(["/dashboard"]);
+            } else if (aUser.role === "client") {
+              console.log(prefix, "redirecting to /user");
+              this.router.navigate(["/dashboard/user/", aUser.userId]);
+            } else {
+              throw new Error("role is supposed to be either admin or client");
+            }
+          },
+          (reason) => {
+            console.error(reason);
+          },
+        );
+      },
+      (reason) => {
+        console.log("failed to sign in");
+      },
+    );
   }
 }

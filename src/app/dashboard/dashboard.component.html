@@ -34,7 +34,8 @@
   <!-- Tableau des commandes récentes -->
   <div class="bg-white rounded-lg shadow-md p-6">
     <h2 class="text-xl font-bold text-gray-800 mb-4">Mes élèves</h2>
-    <table class="w-full text-lef overflow-auto block">
+    <div *ngIf="loading">Chargement...</div>
+    <table *ngIf="!loading" class="w-full text-lef overflow-auto block">
       <thead class="w-full">
         <tr class="border-b w-full">
           <th class="py-2">Identifiant</th>
@@ -47,7 +48,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let da of data">
+        <tr *ngFor="let aDataPoint of a">
+          <td>
+            {{aDataPoint.userId}}
+          </td>
+          <td>
+            {{aDataPoint.nom}}
+          </td>
+          <td>
+            {{aDataPoint.age}}
+          </td>
+          <td>
+            {{aDataPoint.email}}
+          </td>
+          <!-- <td>
+            {{aDataPoint.poids[-1].poid}}
+          </td> -->
+          <td>
+            {{ this.findLastWeight(aDataPoint) }}
+          </td>
+          <td>
+            {{dateToStringFormat(aDataPoint.createdAt.toDate())}}
+          </td>
+          <button [routerLink]="['/dashboard/user/',aDataPoint.userId]" class="btn btn-primary py-3 px-8 ">
+            Détails
+          </button>
+        </tr>
+        <!-- <tr *ngFor="let da of data">
           <td>
             {{da.id}}
           </td>
@@ -69,7 +96,7 @@
           <button [routerLink]="['/dashboard/user/',da.id]" class="btn btn-primary py-3 px-8 ">
             Détails
           </button>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
