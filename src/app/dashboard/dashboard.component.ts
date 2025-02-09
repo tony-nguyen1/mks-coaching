@@ -67,7 +67,7 @@ export class DashboardComponent {
     // UserService.getConnectedUser();
 
     this.getData();
-    this.a = await this.userService.getUsers();
+    this.a = await UserService.getUsers();
     console.log("DashboardComponent: allClientsUsers=", this.a);
 
     // fixme: signaling ? or maybe Promise + await ?
