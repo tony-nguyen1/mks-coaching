@@ -183,7 +183,7 @@ export class UserDetailComponent {
     // aUser.poids.push({ poid: this.mesure?.value, createdAt: Timestamp.now() } as Mesure);
     let aNewMesure = new Mesure(this.mesure?.value, Timestamp.now());
     // console.log("UserDetailComponent: ", this.user());
-    UserService.addMesure(this.userId, aNewMesure).then(() => {
+    this.userService.addMesure(this.userId, aNewMesure).then(() => {
       aUser.poids.push(aNewMesure);
     });
   }
@@ -193,7 +193,7 @@ export class UserDetailComponent {
     console.log(`UserDetailComponent: recieved ${docId} from the route`);
 
     this.userId = docId;
-    const unUser: Promise<MyUser> = UserService.searchMyUserByDocId(docId);
+    const unUser: Promise<MyUser> = this.userService.searchMyUserByDocId(docId);
     unUser.then((user: MyUser) => {
       console.log("in input", user.toString());
       this.user.set(user); // reactively rerender component

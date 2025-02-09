@@ -39,6 +39,7 @@ const prefix: string = "AuthentificationComponent:";
 export class AuthentificationComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthentificationService);
+  private userService = inject(UserService);
 
   constructor(private router: Router) {}
   profileForm: FormGroup = this.formBuilder.group({
@@ -69,7 +70,7 @@ export class AuthentificationComponent {
       (value: FirebaseUser) => {
         console.log(prefix, "connected successfully");
         console.log(prefix, "FirebaseUser=", value);
-        UserService.getUserDocIdFromUID(value.uid).then(
+        this.userService.getUserDocIdFromUID(value.uid).then(
           (aUser: MyUser) => {
             console.log(prefix, `idDocument=${aUser.docId}`);
             if (aUser.role === "admin") {

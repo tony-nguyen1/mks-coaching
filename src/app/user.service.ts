@@ -30,18 +30,25 @@ export type UsersData = {
   providedIn: "root",
 })
 export class UserService {
-  static prefix: string = "UserService:";
+  private static prefix: string = "UserService:";
   // Initialize Firebase
-  static app = initializeApp(FIREBASE_CONFIG);
+  private static app = initializeApp(FIREBASE_CONFIG);
 
   // Initialize Cloud Firestore and get a reference to the service
-  static db = getFirestore(UserService.app);
+  private static db = getFirestore(UserService.app);
 
   constructor() {
     /* TODO: implement singleton */
   }
 
-  static async getUserDocIdFromUID(userID: string): Promise<MyUser> {
+  /**
+   * rzerzer TODO : add documentation
+   *
+   * ezrze
+   * @param userID eteztreztze
+   * @returns zaeazeza
+   */
+  public async getUserDocIdFromUID(userID: string): Promise<MyUser> {
     const q = query(
       collection(UserService.db, "user"),
       where("UID", "==", userID),
@@ -68,11 +75,11 @@ export class UserService {
     }
   }
 
-  static async createUser(aUser: MyUser) {
-    return await addDoc(collection(this.db, "user"), aUser.toJSON());
+  public async createUser(aUser: MyUser) {
+    return await addDoc(collection(UserService.db, "user"), aUser.toJSON());
   }
 
-  static async getUsers(): Promise<Array<MyUser>> {
+  public async getUsers(): Promise<Array<MyUser>> {
     let snapshot = await getDocs(collection(UserService.db, "user"));
     let users: Array<MyUser> = [];
     // users[''] = new User("", "", "", "", 0, Timestamp.now(), []);
@@ -116,7 +123,7 @@ export class UserService {
 
     // return snapshot;
   }
-  static async searchMyUserByDocId(docId: string): Promise<MyUser> {
+  public async searchMyUserByDocId(docId: string): Promise<MyUser> {
     console.log("Service getDetails()");
     // const querySnapshot = await getDocs(collection(UserService.db, "user"));
 
@@ -165,7 +172,7 @@ export class UserService {
     }
   }
 
-  static async addMesure(userId: string, aNewPoids: Mesure) {
+  public async addMesure(userId: string, aNewPoids: Mesure) {
     const docRef = doc(UserService.db, "user", userId);
     await updateDoc(docRef, {
       poids: arrayUnion(aNewPoids.toJson()),
