@@ -8,34 +8,61 @@
 
       <!-- Liens de navigation (version desktop) -->
       <div class="hidden md:flex space-x-4 items-center">
-        <a routerLink="/" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Accueil</a>
+        <a routerLink="/" class="text-gray-800 hover:text-indigo-600 px-3 py-2"
+          >Accueil</a
+        >
         <!-- <a routerLink="/about" class="text-gray-800 hover:text-indigo-600 px-3 py-2">À propos</a> -->
-        <a routerLink="/service" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Services</a>
-        <a routerLink="/contact" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Contact</a>
+        <a
+          routerLink="/service"
+          class="text-gray-800 hover:text-indigo-600 px-3 py-2"
+          >Services</a
+        >
+        <a
+          routerLink="/contact"
+          class="text-gray-800 hover:text-indigo-600 px-3 py-2"
+          >Contact</a
+        >
         <!-- <button routerLink="/auth"
           class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
           Se connecter
         </button> -->
-        <button routerLink="/auth" class="btn btn-primary">
-          Se connecter
-        </button>
+        <button routerLink="/auth" class="btn btn-primary">Se connecter</button>
         @if (darkModeService.darkModeSignal()) {
-        <button (click)="toggleDarkMode()" class="btn btn-active">
-          <img src="img/light_mode.svg" alt="Un petit soleil">
-        </button>
+          <button (click)="toggleDarkMode()" class="btn btn-active">
+            <img src="img/light_mode.svg" alt="Un petit soleil" />
+          </button>
         } @else {
-        <button (click)="toggleDarkMode()" class="btn btn-active">
-          <img src="img/dark_mode.svg" class="dark" alt="Une petite demi-lune">
-        </button>
+          <button (click)="toggleDarkMode()" class="btn btn-active">
+            <img
+              src="img/dark_mode.svg"
+              class="dark"
+              alt="Une petite demi-lune"
+            />
+          </button>
         }
       </div>
 
       <!-- Bouton pour le menu mobile -->
       <div class="flex items-center md:hidden">
-        <button type="button" (click)="toggleMenu()" aria-label="BurgerMenu"
-          class="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-indigo-600 focus:outline-none">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        <button
+          type="button"
+          (click)="toggleMenu()"
+          aria-label="BurgerMenu"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-indigo-600 focus:outline-none"
+        >
+          <svg
+            class="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
           </svg>
         </button>
       </div>
@@ -45,20 +72,34 @@
   <!-- Menu mobile (version responsive) -->
   <div *ngIf="isMenuOpen" class="md:hidden">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a routerLink="/" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Accueil</a>
+      <a
+        routerLink="/"
+        class="block text-gray-800 hover:text-indigo-600 px-3 py-2"
+        >Accueil</a
+      >
       <!-- <a routerLink="/about" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">À propos</a> -->
-      <a routerLink="/service" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Services</a>
-      <a routerLink="/contact" class="block text-gray-800 hover:text-indigo-600 px-3 py-2">Contact</a>
+      <a
+        routerLink="/service"
+        class="block text-gray-800 hover:text-indigo-600 px-3 py-2"
+        >Services</a
+      >
+      <a
+        routerLink="/contact"
+        class="block text-gray-800 hover:text-indigo-600 px-3 py-2"
+        >Contact</a
+      >
 
-      <button routerLink="/auth"
-        class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+      <button
+        routerLink="/auth"
+        class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
+      >
         Se connecter
       </button>
       <button (click)="toggleDarkMode()" class="btn btn-active block">
         @if (darkModeService.darkModeSignal()) {
-        <img src="img/dark_mode.svg" alt="Mode sombre">
+          <img src="img/dark_mode.svg" alt="Mode sombre" />
         } @else {
-        <img src="img/light_mode.svg" class="dark" alt="mode clair">
+          <img src="img/light_mode.svg" class="dark" alt="mode clair" />
         }
       </button>
     </div>

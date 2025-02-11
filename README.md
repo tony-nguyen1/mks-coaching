@@ -10,6 +10,18 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
+## Style guide
+
+https://basarat.gitbook.io/typescript/styleguide
+
+## CSS Ressources
+
+[css-tricks: flexbox guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+[Tailwind](https://tailwindcss.com/docs/installation/framework-guides/angular)
+
+[Tailwind UI](https://tailwindui.com/components)
+
 ## Development server
 
 To start a local development server, run:
@@ -104,7 +116,9 @@ ng deploy --base-href=/mks-coaching/
 
 ## Tailwind
 
-[Source](https://angular.fr/technical/tailwind)
+[Tailwind source](https://angular.fr/technical/tailwind)
+
+[Daisyui source](https://daisyui.com/)
 
 ```bash
 npm install -D tailwindcss postcss autoprefixer
@@ -137,14 +151,14 @@ ng add ng-apexcharts
 
 # TODO
 
-## Techs
+## Techs
 
 - Partial hydration
 - Animatations
 - ~~Static Site Generation~~ il faut un server pour faire ça
 - Mobile First Design
 - TransformStream pour l'inscription ??? J'ai oublié ce que ça veut dire ???
-- Me trouver un nouveau shell ? IDE ? éditeur de texte ?
+- ~~Me trouver un nouveau shell ? IDE ? éditeur de texte ?~~
 - angular ErrorHandler
 
 ## CSS/UX/UI
@@ -176,3 +190,10 @@ ng add ng-apexcharts
 # Sémentique de Version
 
 [SemVer](https://semver.org/lang/fr/)
+
+## SVG
+
+```css
+<!-- pour que la couleur du svg suit le thème choisit -->
+fill="currentColor" 
+```

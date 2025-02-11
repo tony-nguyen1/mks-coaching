@@ -2,11 +2,10 @@ button {
   /* border-width: 4px; */
   /* border-color: red; */
   /* stroke:red; */
-  
 }
 
-.btn>img.dark {
-    /* var pcq tentative de le faire marcher avec tailwind, c'est un échec total */
-    --custom-filter: invert(100%); 
-    filter: var(--custom-filter)
+.btn > img.dark {
+  /* var pcq tentative de le faire marcher avec tailwind, c'est un échec total */
+  --custom-filter: invert(100%);
+  filter: var(--custom-filter);
 }

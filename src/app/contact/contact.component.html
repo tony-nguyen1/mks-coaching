@@ -1,17 +1,42 @@
 <app-nav-bar></app-nav-bar>
 <div class="container mx-auto p-6">
-  <h2 class="text-3xl font-bold text-center mb-6">
-    Contact & Horaires
-  </h2>
+  <h2 class="text-3xl font-bold text-center mb-6">Horaires</h2>
 
   <!-- Section Horaires -->
-  <div class="bg-gray-100 p-6 rounded-lg shadow-md mb-6">
-    <h3 class="text-xl font-semibold mb-4">Horaires de coaching</h3>
+  <div class="p-6 rounded-lg shadow-md mb-6 bg-base-300">
+    <!-- <h3 class="text-xl font-semibold mb-4">Horaires de coaching</h3> -->
     <ul class="space-y-2">
       <li *ngFor="let schedule of coachingHours" class="flex justify-between">
         <span class="font-medium">{{ schedule.day }}</span>
         <span>{{ schedule.hours }}</span>
       </li>
     </ul>
+  </div>
+</div>
+
+<div class="container mx-auto p-6">
+  <h2 class="text-3xl font-bold text-center mb-6">Contact</h2>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="col-span-1 grid justify-center">
+      <div class="grid justify-center">
+        <div class="grid justify-center">
+          <img src="img/phone.svg" alt="Un petit soleil" />
+        </div>
+        <p class="m-3">00 00 00 00 00</p>
+        <!-- <div></div> -->
+      </div>
+    </div>
+    <div class="col-span-1 grid justify-center">
+      <div class="grid justify-center">
+        <!-- <div class="grid justify-center bg-base-300 rounded-xl"> -->
+        <div class="grid justify-center">
+          <img src="img/mail.svg" alt="Un petit soleil" class="" />
+        </div>
+        <p class="m-3">mks[at]gmail.com</p>
+        <!-- <div></div> -->
+      </div>
+    </div>
+    <!-- <div class="col-span-1">filler</div> -->
   </div>
 </div>
