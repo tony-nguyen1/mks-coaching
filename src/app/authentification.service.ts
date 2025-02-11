@@ -40,9 +40,18 @@ export class AuthentificationService {
   private app;
   private db;
 
+  private isConnected: boolean;
+
   constructor() {
     this.app = initializeApp(FIREBASE_CONFIG);
     this.db = getFirestore(this.app);
+    this.isConnected = false;
+  }
+
+  isLoggedIn(): boolean {
+    let b: boolean = !!localStorage.getItem("userToken");
+    console.log(AuthentificationService.prefix, "isLoggedIn=", b);
+    return b; // Vérifie si un token est présent
   }
 
   async signUp(email: string, password: string): Promise<UserCredential> {
@@ -50,8 +59,10 @@ export class AuthentificationService {
     const promiseUserCredential: Promise<UserCredential> =
       createUserWithEmailAndPassword(auth, email, password);
 
+    // localStorage.setItem("userToken", promiseUserCredential. user.uid);
     return promiseUserCredential.then(
       (value: UserCredential) => {
+        localStorage.setItem("userToken", value.user.uid);
         return Promise.resolve(value);
       },
       (reason: any) => {
@@ -72,11 +83,17 @@ export class AuthentificationService {
       );
       const FirebaseUser = userCredential.user;
 
+      localStorage.setItem("userToken", userCredential.user.uid);
       return Promise.resolve(FirebaseUser);
     } catch (error) {
       return Promise.reject(
         "Email and password do not match w/ Firebase Authentification",
       );
     }
+  }
+
+  async signOut() {
+    localStorage.removeItem("userToken");
+    throw new Error("Not yet implemented");
   }
 }
